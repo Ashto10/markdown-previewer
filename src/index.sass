@@ -1,0 +1,42 @@
+$headerHeight: 48px
+
+body
+  margin: 0
+  
+header
+  height: $headerHeight
+  line-height: $headerHeight
+  text-align: center
+  font-size: 1.5em
+  
+.container
+  display: flex
+  align-items: stretch
+  width: 100%
+  height: calc( 100vh - #{$headerHeight} )
+  
+.input, .output
+  display: block
+  flex: 1 1 45%
+  min-width: 45%
+  margin: 10px
+  
+#editor, #preview
+  border: 1px solid gray
+  box-sizing: border-box
+  padding: 1em
+  height: 100%
+  width: 100%
+  
+#editor
+  font-family: monospace
+  border: 1px solid darken(#e2e2e2, 10)
+  background: #e2e2e2
+  resize: none
+  
+#preview
+  word-wrap: break-word
+  overflow-y: auto
+  background: white
+  & > :first-child
+    margin-top: 0

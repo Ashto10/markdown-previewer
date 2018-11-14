@@ -1,0 +1,42 @@
+body {
+  margin: 0; }
+
+header {
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+  font-size: 1.5em; }
+
+.container {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  height: calc( 100vh - 48px ); }
+
+.input, .output {
+  display: block;
+  flex: 1 1 45%;
+  min-width: 45%;
+  margin: 10px; }
+
+#editor, #preview {
+  border: 1px solid gray;
+  box-sizing: border-box;
+  padding: 1em;
+  height: 100%;
+  width: 100%; }
+
+#editor {
+  font-family: monospace;
+  border: 1px solid #c9c9c9;
+  background: #e2e2e2;
+  resize: none; }
+
+#preview {
+  word-wrap: break-word;
+  overflow-y: auto;
+  background: white; }
+  #preview > :first-child {
+    margin-top: 0; }
+
+/*# sourceMappingURL=index.css.map */
