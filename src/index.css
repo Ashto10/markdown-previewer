@@ -1,36 +1,55 @@
 body {
-  margin: 0; }
+  margin: 0;
+  font-family: "Open Sans", serif; }
 
-header {
-  height: 48px;
-  line-height: 48px;
-  text-align: center;
-  font-size: 1.5em; }
+main {
+  margin: 0 20px; }
 
 .container {
   display: flex;
   align-items: stretch;
   width: 100%;
-  height: calc( 100vh - 48px ); }
+  height: calc( 100vh - 50px ); }
+
+.main-header, .controls {
+  height: 50px;
+  display: flex;
+  align-items: center; }
+  .main-header a, .controls a {
+    color: #67b645; }
+
+.controls button {
+  margin-left: 10px; }
 
 .input, .output {
   display: block;
-  flex: 1 1 45%;
-  min-width: 45%;
-  margin: 10px; }
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 45vh;
+  min-width: 200px;
+  margin: 16px 20px; }
+  .input button, .output button {
+    height: 50%; }
+
+.header-title {
+  text-transform: capitalize;
+  margin: 0;
+  margin-right: auto;
+  font-size: 1.5em; }
 
 #editor, #preview {
-  border: 1px solid gray;
-  box-sizing: border-box;
+  height: calc(100% - 2em);
+  width: calc(100% - 2em);
   padding: 1em;
-  height: 100%;
-  width: 100%; }
+  border: 1px solid #AAA; }
 
 #editor {
   font-family: monospace;
-  border: 1px solid #c9c9c9;
-  background: #e2e2e2;
+  border: 1px solid #cbcbcb;
+  background: #e4e4e4;
   resize: none; }
+  #editor:focus {
+    outline: 1px solid skyblue; }
 
 #preview {
   word-wrap: break-word;
@@ -38,5 +57,15 @@ header {
   background: white; }
   #preview > :first-child {
     margin-top: 0; }
+  #preview a:link {
+    text-decoration: none; }
+  #preview a:hover {
+    text-decoration: underline; }
+  #preview code {
+    font-family: "Roboto Sans", monospace; }
+
+@media screen and (max-width: 600px) {
+  .container {
+    flex-direction: column; } }
 
 /*# sourceMappingURL=index.css.map */
