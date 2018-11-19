@@ -41,26 +41,26 @@ How to use
 
 Simply start typing, and text will simply appear, automatically wrapped in \`<p>\` tags. Hitting the return key once will insert a line break, and a second press will start a brand new paragraph.
 
-If you want to add *italics* to certain words, wrap them in asterisks like so: \`*this will be italicized*\`. Using two asterisks, \`**like so**\`, will create **bold** text.
+If you want to add *italics* to certain words, wrap them in asterisks like so: \\*this will be italicized\\*. Using two asterisks, \\*\\*like so\\*\\*, will create **bold** text.
 
 ### Headings
 
 Adding octothorpes(#) before a block of text will create a heading. The amount of octothorpeswill dictate the resulting heading size.
 
->     # H1 heading
->     ## H2 heading
->     ### H3 heading
->     #### H4 heading
->     ##### H5 heading
->     ###### H6 heading
+    # H1 heading
+    ## H2 heading
+    ### H3 heading
+    #### H4 heading
+    ##### H5 heading
+    ###### H6 heading
 
 Alternatively, the following formatting will also create heading tags
 
->     This creates an H1 heading
->     ===
-> 
->     This creates an H2 heading
->     ---
+    This creates an H1 heading
+    ===
+    
+    This creates an H2 heading
+    ---
 
 Finally, all headings are given an id that matches their name. Any non-alphanumerical characters are replaced with hyphens (-). These ids can then be hyperlinked to in order to help readers bounce around the final product, as seen above in the table of contents.
 
@@ -68,17 +68,17 @@ Finally, all headings are given an id that matches their name. Any non-alphanume
 
 The syntax to link is as follows:
 
->     [Hyperlink text](link-to-page.html)
+    [Hyperlink text](link-to-page.html)
 
 [The above creates this link.](#images-and-links)
 
 Alternatively, you can create a reference-style link with the following syntax:
 
->     [Hyperlink text][link reference]
-> 
->     ...
-> 
->     [link reference] actual link "hover text"
+    [Hyperlink text][link reference]
+    
+    ...
+    
+    [link reference] actual link "hover text"
 
 [Which results in this kind of link][test]
 
@@ -92,9 +92,9 @@ By preceding a link with an exclamation point (!), that link becomes an image. I
 
 Lists are fairly straightforward. Much like headers, simply precede each list item with one of the following characters: * + -. Each will then be converted to an unordered list item, and you can even use them interchangeably.
 
->     * First item
->     - Second item
->     + Third item
+    * First item
+    - Second item
+    + Third item
 
 becomes
 
@@ -104,9 +104,9 @@ becomes
 
 Ordered list items work identically. By preceeding a list item with "1.", it will become an ordered list item. You don't have to manually follow numbers after one another.
 
->     1. First item
->     1. Second item
->     151. Third item
+    1. First item
+    1. Second item
+    151. Third item
 
 becomes 
 
@@ -119,7 +119,7 @@ becomes
 Putting a right angle bracket (>) before the start of a paragraph converts it into a blockquote. Preferably, you should place > at the start of every new line within a blockquote, but in most cases a single one at the start will suffice. Don't quote me on that, as this occasionally may lead to buggy behavior in certain scenarios, so it's probably best to do it all at once.
 
 > Preferably, you should place > at the start of every new line within a blockquote, but in most cases a single one at the start will suffice. Don't quote me on that.
-<span style="display: block; text-align: right; color: gray">&mdash; Gustavo, 2018</span>
+<span style="display: block; text-align: right; color: gray; margin-top: 1em;">&mdash; Gustavo, 2018</span>
 
 Blockquotes can contain other elements inside them, even other blockquotes!
 
@@ -184,6 +184,7 @@ function Output(props) {
     <section className="output">
       <header className="controls">
         <p className='header-title'>Output</p>
+        <button onClick={e => props.toggleInput() }>{props.showInput ? 'Hide Editor' : 'Show Editor'}</button>
       </header>
       <div id="preview" dangerouslySetInnerHTML={text} />
     </section>
@@ -195,18 +196,29 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      input: previewText
+      input: previewText,
+      showInput: true
     }
 
     this.updateOutput = this.updateOutput.bind(this);
+    this.toggleInput = this.toggleInput.bind(this);
 
   }
   
   updateOutput(input) {
     this.setState({input});
   }
-
+  
+  toggleInput() {
+    this.setState({showInput: !this.state.showInput})
+  }
+  
   render() {
+    let input = null;
+    if (this.state.showInput) {
+      input = <Input updateOutput={this.updateOutput} />
+    }
+    
     return (
       <main>
         <header className="main-header">
@@ -214,8 +226,8 @@ class App extends React.Component {
           <p>Made by <a href="https://gustavoguarino.com">Gustavo</a></p>
         </header>
         <div className="container">
-          <Input updateOutput={this.updateOutput} />
-          <Output text={this.state.input} />
+          {input}
+          <Output text={this.state.input} showInput={this.state.showInput} toggleInput={this.toggleInput} />
         </div>
       </main>
     );
