@@ -17,7 +17,6 @@ main
   display: flex
   width: 100%
   height: calc( 100vh - #{$headerHeight} )
-
   
 .main-header, .controls
   height: $headerHeight
@@ -26,10 +25,19 @@ main
   
   a
     color: #67b645
+    
+.main-header
+  margin: 0 30px
   
 .controls
   button
     margin-left: 10px
+    
+.header-title
+  text-transform: capitalize
+  margin: 0
+  margin-right: auto
+  font-size: 1.5em
   
 .input, .output
   display: flex
@@ -45,12 +53,6 @@ main
     color: #333
     font-size: 14px
     border-radius: 5px
-    
-.header-title
-  text-transform: capitalize
-  margin: 0
-  margin-right: auto
-  font-size: 1.5em
   
 #editor, #preview
   height: calc(100% - 2em)

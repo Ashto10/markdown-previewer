@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="index.css" rel="stylesheet" type="text/css">
+
+    <title>Markdown Previewer</title>
+  </head>
+  <body>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <div id="root">
+      <header class="main-header">
+        <p class="header-title">Markdown Previewer</p>
+        <p>Made by <a href="https://gustavoguarino.com">Gustavo</a></p>
+      </header>
+      <div class="container">
+        <markdown-input v-show="!fullscreen" @update-input="updateInput"></markdown-input>
+        <markdown-output @toggle-fullscreen="toggleFullscreen" :fullscreen="fullscreen" :incoming-text="input"></markdown-output>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.12/marked.min.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

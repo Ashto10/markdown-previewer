@@ -1,11 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-
-// Grab marked object from window's script
-const marked = window.marked;
-
-let previewText = `
+/*
+// The introductory text presented to viewers on page load.
+// Stored inside an array in order to allow collapsing on Brackets.
+// Strongly recommend making a single string for production.
+*/
+const startingText = [`
 The Amazing(ly simple) Markdown Previewer!
 ===
 
@@ -148,90 +146,84 @@ This page, you mean? Very, very easily. Most of the hard work has been done by M
       smartLists: true,
       smartyPants: true
     }
-`;
+`];
 
-function Input(props) {
-  function clearInput() {
-    document.getElementById('editor').value = '';
-    props.updateOutput('');
-  }
-  
-  function resetInput() {
-    document.getElementById('editor').value = previewText;
-    props.updateOutput(previewText);
-  }
-  
-  return (
-    <section className="input">
-      <header className="controls">
-        <p className='header-title'>Input</p>
-        <button onClick={e => clearInput() }>Clear</button>
-        <button onClick={e => resetInput() }>Show Intro</button>
+Vue.component('markdown-input', {
+  template: `
+  <section class="input">
+      <header class="controls">
+        <p class='header-title'>Input</p>
+        <button @click="clear">Clear</button>
+        <button @click="reset">Show Sample</button>
       </header>
-      <textarea id="editor" onChange= {e => props.updateOutput(e.target.value)} defaultValue={previewText}></textarea>
+      <textarea id="editor" @input="updateText" v-model='inputText'></textarea>
     </section>
-  )
-}
-
-function Output(props) {
-  let options = {
-    breaks: true,
-    smartLists: true,
-    smartypants: true
-  };
-  let text = {__html: marked(props.text,options)};
-  return (
-    <section className="output">
-      <header className="controls">
-        <p className='header-title'>Output</p>
-        <button onClick={e => props.toggleInput() }>{props.showInput ? 'Hide Editor' : 'Show Editor'}</button>
-      </header>
-      <div id="preview" dangerouslySetInnerHTML={text} />
-    </section>
-  )
-}
-
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      input: previewText,
-      showInput: true
+`,
+  data() {
+    return {
+      inputText: startingText[0]
+  }
+  },
+  methods: {
+    clear() {
+      this.inputText = '';
+      this.updateText(this.inputText);
+    },
+    reset() {
+      this.inputText = startingText[0];
+      this.updateText();
+    },
+    updateText() {
+      this.$emit('update-input', this.inputText);
     }
+  }
+});
 
-    this.updateOutput = this.updateOutput.bind(this);
-    this.toggleInput = this.toggleInput.bind(this);
-
-  }
-  
-  updateOutput(input) {
-    this.setState({input});
-  }
-  
-  toggleInput() {
-    this.setState({showInput: !this.state.showInput})
-  }
-  
-  render() {
-    let input = null;
-    if (this.state.showInput) {
-      input = <Input updateOutput={this.updateOutput} />
+Vue.component('markdown-output', {
+  props: {
+    incomingText: {
+      type: String,
+      required: true
+    },
+    fullscreen: {
+      type: Boolean,
+      default: false
     }
-    
-    return (
-      <main>
-        <header className="main-header">
-          <p className="header-title">Markdown Previewer</p>
-          <p>Made by <a href="https://gustavoguarino.com">Gustavo</a></p>
-        </header>
-        <div className="container">
-          {input}
-          <Output text={this.state.input} showInput={this.state.showInput} toggleInput={this.toggleInput} />
-        </div>
-      </main>
-    );
+  },
+  template: `
+  <section class="output">
+    <header class="controls">
+      <p class='header-title'>Output</p>
+      <button @click="toggleFullscreen">{{ this.fullscreen ? 'Hide Editor' : 'Show Editor' }}</button>
+    </header>
+    <div id="preview" v-html="markdown">
+    </div>
+  </section>
+`,
+  methods: {
+    toggleFullscreen() {
+      this.$emit('toggle-fullscreen', this.fullscreen);
+    }
+  },
+  computed: {
+    markdown() {
+      return marked(this.incomingText);
+    }
   }
-}
+});
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const app = new Vue({
+  el: '#root',
+  data: {
+    input: startingText[0],
+    fullscreen: false
+  },
+  methods: {
+    updateInput(text) {
+      this.input = text;
+    },
+    toggleFullscreen() {
+      this.fullscreen = !this.fullscreen
+    }
+  }
+});
